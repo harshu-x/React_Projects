@@ -1,0 +1,148 @@
+You can directly copy-paste.
+
+📘 React Hooks Notes — useState (Complete)
+⭐ 1. What is useState?
+
+useState is a React Hook that allows functional components to:
+
+store data (state)
+
+update UI dynamically
+
+re-render when state changes
+
+👉 Before hooks, state was only available in class components.
+
+⭐ 2. Syntax
+const [state, setState] = useState(initialValue);
+
+Explanation:
+
+state → current value
+
+setState → function to update value
+
+initialValue → starting value
+
+Example:
+const [count, setCount] = useState(0);
+
+⭐ 3. Basic Example
+import { useState } from "react";
+
+function App() {
+
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
+    </>
+  );
+}
+
+⭐ 4. Important Rules
+❌ Never update state directly
+count = count + 1; // WRONG
+
+✅ Always use setter function
+setCount(count + 1);
+
+⭐ 5. Multiple State Variables
+const [name, setName] = useState("Harshal");
+const [age, setAge] = useState(22);
+
+⭐ 6. Functional Update (VERY IMPORTANT)
+
+Use when new state depends on old state.
+
+setCount(prev => prev + 1);
+
+
+Why?
+
+React updates may be asynchronous.
+
+Prevents stale values.
+
+⭐ 7. useState with Objects
+Basic Object State
+const [user, setUser] = useState({
+  name: "Harshal",
+  age: 22,
+  city: "Pune"
+});
+
+Updating One Property
+
+React does NOT merge objects automatically.
+
+❌ WRONG
+setUser({ age: 23 });
+
+
+Result:
+
+{ age:23 } // other properties lost
+
+✅ CORRECT (Spread Operator)
+setUser({
+  ...user,
+  age: 23
+});
+
+Functional Object Update (Best Practice)
+setUser(prev => ({
+  ...prev,
+  age: prev.age + 1
+}));
+
+⭐ 8. Nested Object Updates
+
+Example:
+
+const [user, setUser] = useState({
+  name: "Harshal",
+  address: {
+    city: "Pune",
+    pincode: 411001
+  }
+});
+
+Update nested property
+setUser(prev => ({
+  ...prev,
+  address: {
+    ...prev.address,
+    city: "Mumbai"
+  }
+}));
+
+
+👉 Spread needed at every level.
+
+⭐ 9. useState with Arrays
+Basic Array
+const [items, setItems] = useState([]);
+
+Add Item
+setItems(prev => [...prev, "New Item"]);
+
+Remove Item
+setItems(prev => prev.filter(item => item !== "A"));
+
+Update Item
+setItems(prev =>
+  prev.map(item =>
+    item === "A" ? "Updated" : item
+  )
+);
+
+⭐ 10. Array of Objects (Real-world)
+const [users, setUsers] = useState([
+  { id: 1, name: "Harshal" },
+  { id: 2, name: "Rahul" }
+]);
